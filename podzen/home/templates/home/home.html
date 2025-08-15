@@ -5,17 +5,264 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PodZen Home</title>
-    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fff 0%, #f6f6f6 100%);
+            --card-bg: #fcfcfc;
+            --text-color: #000000;
+            --brand-color: #FF0000;
+            --btn-bg: #FF0000;
+            --btn-hover: #cc0000;
+            --input-bg: #FFFFFF;
+            --footer-color: #888;
+            --border-color: #AAAAAA;
+        }
+
+        body[data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #181818 0%, #232323 100%);
+            --card-bg: #232323;
+            --text-color: #FFFFFF;
+            --brand-color: #FF0000;
+            --btn-bg: #FF0000;
+            --btn-hover: #cc0000;
+            --input-bg: #3D3D3D;
+            --footer-color: #AAAAAA;
+            --border-color: #AAAAAA;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-color);
+            --brand-color: #FF0000;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .card {
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s, color 0.3s, border 0.3s;
+
+            .main-heading {
+                font-size: 2rem;
+                font-weight: 600;
+            }
+        }
+
+        .brand {
+
+            color: var(--brand-color);
+            letter-spacing: 2px;
+            font-size: 4.2rem;
+            transition: color 0.3s, font-size 0.3s;
+        }
+
+        .youtube-input {
+            border-radius: 2rem;
+            background: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s, color 0.3s, border 0.3s;
+        }
+
+        .youtube-input::placeholder {
+            color: #888;
+            opacity: 1;
+            transition: color 0.3s;
+        }
+
+        body[data-theme="dark"] .youtube-input::placeholder {
+            color: #AAAAAA;
+            opacity: 1;
+        }
+
+        .youtube-input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, .15);
+        }
+
+        .btn-podzen {
+            background: var(--btn-bg);
+            color: #fff;
+            border-radius: 2rem;
+            transition: background 0.2s;
+        }
+
+        .btn-podzen:hover {
+            background: var(--btn-hover);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10;
+        }
+
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 64px;
+            height: 28px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: black;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 6px;
+            bottom: 4px;
+            background-color: red;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--btn-bg);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(28px);
+            background-color: #fff;
+        }
+
+        .slider:after {
+            content: attr(data-light);
+            color: #fff;
+            position: absolute;
+            right: 8px;
+            top: 3px;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        input:checked+.slider:after {
+            content: attr(data-dark);
+            left: 8px;
+            right: auto;
+        }
+
+        footer {
+            color: var(--footer-color);
+            transition: color 0.3s;
+        }
+
+        .logo {
+            width: 80px;
+            color: #212121;
+        }
+
+        .logo :is(path[fill="#212121"]) {
+            fill: currentColor;
+        }
+
+        /* Example hover */
+        .logo:hover path[fill="red"] {
+            fill: #e62117;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <header class="text-center my-4">
-            <h1>Welcome to PodZen</h1>
-            <p>Your one-stop solution for podcast management</p>
-        </header>
-
+    <div class="theme-toggle">
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle dark mode" tabindex="0">
+            <label class="toggle-switch mb-0">
+                <input type="checkbox" id="themeSwitch">
+                <span class="slider" data-light="☀️" data-dark="🌙"></span>
+            </label>
+        </button>
     </div>
+    <div class="container d-flex flex-column justify-content-center align-items-center min-vh-100 position-relative"
+        style="min-width: 500px; max-width: 100vw;">
+        <div class="card p-5 w-100"
+            style="max-width: 700px; min-width: 420px; min-height: 420px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <div class="text-center mb-5" style="width: 100%;">
+                <span class="brand" style="font-size: 5.5rem">PodZen</span>
+                <div style="font-size: 2.3rem; margin-top: 1.2rem;font-weight: 500;">Turn Full Video into useful
+                    Question & Answers</div>
+            </div>
+            <form method="post" action="" autocomplete="off" style="width: 90%; max-width: 500px; margin: 0 auto;">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="youtubeLink" class="form-label" style="font-size: 1.2rem;">Paste a <a href="https://www.youtube.com/podcasts" target="_blank" rel="noopener noreferrer"><svg class="logo"
+                            role="img" aria-labelledby="logoTitle" viewBox="0 0 492 110"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title id="logoTitle">YouTube-style play logo</title>
+                            <path fill="red"
+                                d="M154.3 17.5c-1.8-6.7-7.1-12-13.8-13.8C128.4.4 79.7.4 79.7.4S31 .5 18.9 3.8c-6.7 1.8-12 7.1-13.8 13.8C1.9 29.7 1.9 55 1.9 55s0 25.3 3.3 37.5c1.8 6.7 7.1 12 13.8 13.8 12.1 3.3 60.8 3.3 60.8 3.3s48.7 0 60.8-3.3c6.7-1.8 12-7.1 13.8-13.8 3.3-12.1 3.3-37.5 3.3-37.5s-.1-25.3-3.4-37.5z">
+                            </path>
+                            <path fill="#fff" d="M64.2 78.4L104.6 55 64.2 31.6z"></path>
+                            <g>
+                                <g fill="#212121">
+                                    <path
+                                        d="M227.9 99.7c-3.1-2.1-5.3-5.3-6.6-9.7-1.3-4.4-1.9-10.2-1.9-17.5v-9.9c0-7.3.7-13.3 2.2-17.7 1.5-4.5 3.8-7.7 7-9.7 3.2-2 7.3-3.1 12.4-3.1 5 0 9.1 1 12.1 3.1s5.3 5.3 6.7 9.7c1.4 4.4 2.1 10.3 2.1 17.6v9.9c0 7.3-.7 13.1-2.1 17.5-1.4 4.4-3.6 7.6-6.7 9.7-3.1 2-7.3 3.1-12.5 3.1-5.4.1-9.6-1-12.7-3zM245.2 89c.9-2.2 1.3-5.9 1.3-10.9V56.8c0-4.9-.4-8.5-1.3-10.7-.9-2.3-2.4-3.4-4.5-3.4s-3.5 1.1-4.4 3.4c-.9 2.3-1.3 5.8-1.3 10.7v21.3c0 5 .4 8.7 1.2 10.9.8 2.2 2.3 3.3 4.5 3.3 2.1 0 3.6-1.1 4.5-3.3zM464.4 72.7v3.5c0 4.4.1 7.7.4 9.9.3 2.2.8 3.8 1.6 4.8s2.1 1.5 3.8 1.5c2.3 0 3.9-.9 4.7-2.7.9-1.8 1.3-4.8 1.4-8.9l13.3.8c.1.6.1 1.4.1 2.4 0 6.3-1.7 11-5.2 14.1-3.5 3.1-8.3 4.7-14.6 4.7-7.6 0-12.9-2.4-15.9-7.1-3-4.7-4.6-12.1-4.6-22V61.6c0-10.2 1.6-17.7 4.7-22.4 3.2-4.7 8.6-7.1 16.2-7.1 5.3 0 9.3 1 12.1 2.9 2.8 1.9 4.8 4.9 6 9 1.2 4.1 1.7 9.7 1.7 16.9v11.7h-25.7zm2-28.8c-.8 1-1.3 2.5-1.6 4.7-.3 2.2-.4 5.5-.4 10v4.9h11.2v-4.9c0-4.4-.1-7.7-.4-10-.3-2.3-.8-3.9-1.6-4.8-.8-.9-2-1.4-3.6-1.4-1.7.1-2.9.6-3.6 1.5zM190.5 71.4L173 8.2h15.3l6.1 28.6c1.6 7.1 2.7 13.1 3.5 18h.4c.5-3.6 1.7-9.5 3.5-17.9l6.3-28.7h15.3l-17.7 63.1v30.3h-15.1V71.4zM311.5 33.4v68.3h-12l-1.3-8.4h-.3c-3.3 6.3-8.2 9.5-14.7 9.5-4.5 0-7.9-1.5-10-4.5-2.2-3-3.2-7.6-3.2-13.9v-51h15.4v50.1c0 3 .3 5.2 1 6.5.7 1.3 1.8 1.9 3.3 1.9 1.3 0 2.6-.4 3.8-1.2 1.2-.8 2.1-1.9 2.7-3.1V33.4h15.3zM390.4 33.4v68.3h-12l-1.3-8.4h-.3c-3.3 6.3-8.2 9.5-14.7 9.5-4.5 0-7.9-1.5-10-4.5-2.2-3-3.2-7.6-3.2-13.9v-51h15.4v50.1c0 3 .3 5.2 1 6.5.7 1.3 1.8 1.9 3.3 1.9 1.3 0 2.6-.4 3.8-1.2 1.2-.8 2.1-1.9 2.7-3.1V33.4h15.3z">
+                                    </path>
+                                    <path
+                                        d="M353.3 20.6H338v81.1h-15V20.6h-15.3V8.2h45.5v12.4zM441.2 44.3c-.9-4.3-2.4-7.4-4.5-9.4-2.1-1.9-4.9-2.9-8.6-2.9-2.8 0-5.5.8-7.9 2.4-2.5 1.6-4.3 3.7-5.7 6.3h-.1v-36h-14.8v96.9h12.7l1.6-6.5h.3c1.2 2.3 3 4.1 5.3 5.5 2.4 1.3 5 2 7.9 2 5.2 0 9-2.4 11.5-7.2 2.4-4.8 3.7-12.3 3.7-22.4V62.2c0-7.6-.5-13.6-1.4-17.9zm-14.1 27.9c0 5-.2 8.9-.6 11.7-.4 2.8-1.1 4.8-2.1 6-1 1.2-2.3 1.8-3.9 1.8-1.3 0-2.4-.3-3.5-.9-1.1-.6-1.9-1.5-2.6-2.7V49.3c.5-1.9 1.4-3.4 2.7-4.6 1.3-1.2 2.6-1.8 4.1-1.8 1.6 0 2.8.6 3.6 1.8.9 1.2 1.4 3.3 1.8 6.2.3 2.9.5 7 .5 12.4v8.9z">
+                                    </path>
+                                </g>
+                            </g>
+                        </svg></a> link to get started</label>
+                    <input type="url" class="form-control youtube-input" id="youtubeLink" name="youtube_link"
+                        placeholder="https://www.youtube.com/watch?v=..." required
+                        style="font-size: 1.15rem; padding: 0.9rem 1.2rem;">
+                </div>
+                <button type="submit" class="btn btn-podzen w-100 py-3" style="font-size: 1.2rem;">Submit</button>
+            </form>
+        </div>
+        <footer class="mt-4 small text-center">&copy; {{ year|default:2025 }} PodZen. All rights reserved.</footer>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Theme toggle logic
+        const themeSwitch = document.getElementById('themeSwitch');
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('podzen-theme', theme);
+            themeSwitch.checked = theme === 'dark';
+        }
+        // Load theme from localStorage
+        const savedTheme = localStorage.getItem('podzen-theme');
+        if (savedTheme === 'dark') {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+        themeSwitch.addEventListener('change', function () {
+            setTheme(themeSwitch.checked ? 'dark' : 'light');
+        });
+    </script>
 </body>
 
 </html>
