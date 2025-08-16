@@ -1,0 +1,72 @@
+<html>
+<head>
+	<title>Extracted Questions & Answers</title>
+	<style>
+		body {
+			font-family: 'Segoe UI', Arial, sans-serif;
+			background: #f7f7fa;
+			margin: 0;
+			padding: 0;
+		}
+		.container {
+			max-width: 700px;
+			margin: 40px auto;
+			background: #fff;
+			border-radius: 12px;
+			box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+			padding: 32px 24px;
+		}
+		h1 {
+			text-align: center;
+			color: #2d3748;
+			margin-bottom: 32px;
+		}
+		.qa-card {
+			background: #f1f5fb;
+			border-radius: 8px;
+			margin-bottom: 20px;
+			padding: 20px 18px;
+			box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+			transition: box-shadow 0.2s;
+		}
+		.qa-card:hover {
+			box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+		}
+		.question {
+			font-weight: 600;
+			color: #1a202c;
+			margin-bottom: 8px;
+		}
+		.answer {
+			color: #4a5568;
+			margin-left: 12px;
+		}
+		.error {
+			color: #c53030;
+			background: #fff5f5;
+			border: 1px solid #feb2b2;
+			padding: 16px;
+			border-radius: 8px;
+			margin-bottom: 20px;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Extracted Questions & Answers</h1>		
+		{% if data is string %}
+			<div class="error">{{ data }}</div>
+		{% else %}
+			{% for item in data %}
+				<div class="qa-card">
+					<div class="question">Q{{ forloop.counter }}. {{ item.question }}</div>
+					<div class="answer"><b>Answer:</b> {{ item.answer }}</div>
+				</div>
+			{% empty %}
+				<div>No questions found.</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+</body>
+</html>

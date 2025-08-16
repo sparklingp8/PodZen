@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import home_view, show_link_view
+from .views import home_view, get_video_link
 
 urlpatterns = [
     path('', home_view, name='home'),
-    path('show-link/<path:link>/', show_link_view, name='show_link'),
+    path('video-link', get_video_link, name='video_link'),
 ]
